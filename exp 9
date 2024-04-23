@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+int calculateTourCost(vector<vector<int>>& distances, vector<int>& tour) {
+    int totalCost = 0;
+    int cities = distances.size();
+    for (int i = 0; i < cities - 1; i++) {
+        totalCost += distances[tour[i]][tour[i + 1]];
+    }
+    totalCost += distances[tour[cities - 1]][tour[0]];
+    return totalCost;
+}
+
+int findMinTourCost(vector<vector<int>>& distances, int startCity) {
+    int cities = distances.size();
+    vector<int> tour(cities);
+    for (int i = 0; i < cities; i++) {
+        tour[i] = i;
+    }
+    int minCost = INT_MAX;
+    do {
+        if (tour[0] == startCity) {
+            int currentCost = calculateTourCost(distances, tour);
+            minCost = min(minCost, currentCost);
+        }
+    } while (next_permutation(tour.begin(), tour.end()));
+    return minCost;
+}
+
+int main() {
+    
+    vector<vector<int>> distances = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+    int startingCity = 0; 
+    int minTourCost = findMinTourCost(distances, startingCity);
+    
+    cout << "Minimum cost of the tour: " << minTourCost << endl;
+    return 0;
+}
