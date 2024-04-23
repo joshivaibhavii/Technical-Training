@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int maxUnboundedKnapsack(int capacity, vector<int>& weights) {
+    vector<int> dp(capacity + 1, 0);
+    for (int i = 1; i <= capacity; i++) {
+        for (int j = 0; j < weights.size(); j++) {
+            if (weights[j] <= i) {
+                dp[i] = max(dp[i], dp[i - weights[j]] + weights[j]);
+            }
+        }
+    }
+    return dp[capacity];
+}
+
+int main() 
+\{
+    
+    int testCases;
+    cin >> testCases;
+    while (testCases--) {
+        int itemCount, capacity;
+        cin >> itemCount >> capacity;
+        vector<int> weights(itemCount);
+        for (int i = 0; i < itemCount; i++) {
+            cin >> weights[i];
+        }
+       
+        int maxSum = maxUnboundedKnapsack(capacity, weights);
+        
+        cout << "Maximum sum: " << maxSum << endl;
+    }
+    return 0;
+}
